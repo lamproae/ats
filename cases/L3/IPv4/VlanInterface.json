@@ -1,0 +1,12 @@
+{
+	"name" : "Vlan Interface",
+	"description" : "Test L3 vlan interface create/delete/shutdown/noshutdown",
+	"subCases" : [
+		{
+			"name" : "Vlan interface Create",
+			"description" : "Test L3 interface creation and IPv4 address configuration",
+			"precondition" : "noVlanInterface",
+			"postcondition" : ""
+		}
+	]
+}

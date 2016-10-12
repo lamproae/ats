@@ -1,0 +1,19 @@
+{
+	"name" : "Basic",
+	"subCases" : [
+		{
+			"name" : "modelname",
+			"command" : { "show system", "enable" },
+			"expected" : ["Model Name          : V2708M"]
+		},
+		{
+			"name" : "memorysize",
+			"command" : { "show system", "enable" },
+			"expected" : ["Main Memory Size    : 256 MB"]
+		},
+		{
+			"name" : "port",
+			"command" : { "show port", "enable" },
+			"expected" : ["Ethernet port 8", "GEPON port 1", "Trunk port: 5"]
+		}
+}

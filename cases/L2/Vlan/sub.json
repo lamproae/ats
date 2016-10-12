@@ -1,0 +1,100 @@
+[	
+	{
+		"operations": [
+			{
+				"name" : "V2708M",
+				"commands" : [{"command": "vlan create 400", "mode": "bridge", "end": "#"}],
+				"expected" : [
+					{"command" : {"command" : "show vlan", "mode" : "bridge", "end" : "#"},
+						"expected" : "br400"
+					},
+					{"command" : {"command" : "show vlan 400", "mode" : "bridge", "end" : "#"},
+						"expected" : "br400"
+					}
+				]
+			}
+		]
+	},
+	{
+		"operations": [
+			{
+				"name" : "V2708M",
+				"commands" : [{"command": "vlan add 400 7-8 un", "mode": "bridge", "end": "#"}],
+				"expected" : [
+					{"command" : {"command" : "show vlan", "mode" : "bridge", "end" : "#"},
+						"expected" : "......uu"
+					},
+					{"command" : {"command" : "show vlan 400", "mode" : "bridge", "end" : "#"},
+						"expected" : "......uu"
+					}
+				]
+			}
+		]
+	},
+	{
+		"operations": [
+			{
+				"name" : "V2708M",
+				"commands" : [{"command": "vlan del 400 7-8", "mode": "bridge", "end": "#"}],
+				"expected" : [
+					{"command" : {"command" : "show vlan", "mode" : "bridge", "end" : "#"},
+						"expected" : "........"
+					},
+					{"command" : {"command" : "show vlan 400", "mode" : "bridge", "end" : "#"},
+						"expected" : "........"
+					}
+				]
+			}
+		]
+	},
+	{
+		"operations": [
+			{
+				"name" : "V2708M",
+				"commands" : [{"command": "vlan add 400 7-8 tag", "mode": "bridge", "end": "#"}],
+				"expected" : [
+					{"command" : {"command" : "show vlan", "mode" : "bridge", "end" : "#"},
+						"expected" : "......tt"
+					},
+					{"command" : {"command" : "show vlan 400", "mode" : "bridge", "end" : "#"},
+						"expected" : "......tt"
+					}
+				]
+			}
+		]
+	},
+	{
+		"operations": [
+			{
+				"name" : "V2708M",
+				"commands" : [{"command": "vlan del 400 7-8", "mode": "bridge", "end": "#"}],
+				"expected" : [
+					{"command" : {"command" : "show vlan", "mode" : "bridge", "end" : "#"},
+						"expected" : "........"
+					},
+					{"command" : {"command" : "show vlan 400", "mode" : "bridge", "end" : "#"},
+						"expected" : "........"
+					}
+				]
+			}
+		]
+	},
+	{
+		"operations": [
+			{
+				"name" : "V2708M",
+				"commands" : [{"command": "no vlan 400", "mode": "bridge", "end": "#"}],
+				"expected" : [
+					{"command" : {"command" : "show vlan", "mode" : "bridge", "end" : "#"},
+						"expectedNo" : "br400"
+					},
+					{"command" : {"command" : "show vlan 400", "mode" : "bridge", "end" : "#"},
+						"expectedNo" : "br400"
+					}
+				]
+			}
+		]
+	}
+]
+
+

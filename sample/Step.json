@@ -1,0 +1,36 @@
+[  //steps
+	{ //step 1
+		[{"name" : "V2708M",	//Device 1 operation
+			"operation": {
+				"commands" : [{"vlan create 400", "bridge", "#"}],
+				"expected" : [
+					{"command" : {"command" : "show vlan", "mode" : "bridge", "end": "#"},
+						"expected" : "br400"
+					},
+					{"command" : {"command" : "show vlan 400", "mode" : "bridge", "end": "#"},
+						"expected" : "br400"
+					}
+				]
+			}
+		},
+
+		{
+			"name" : "V2224G",	//Device 2 operation
+			"operation" : {
+
+
+			}
+		},
+		{
+			"name" : "V8500",	//Device 3 operation
+			"operation" : {
+
+			}
+		}]
+	},
+	{ //step 2
+
+	}
+]
+
+

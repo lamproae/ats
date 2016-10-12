@@ -1,0 +1,11 @@
+{
+	"name" : "Vlan",
+	"parent" : "",
+	"description" : "Test Vlan create and delete",
+	"precondition" : [
+	],
+	"subCases" : [
+	],
+	"postcondition" : [
+	]
+}

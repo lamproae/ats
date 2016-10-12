@@ -1,0 +1,19 @@
+{
+	"product": "V2708M",
+	"config" :{ 
+		"hostname" : "SWITCH", 
+		"username" : "admin", 
+		"password" : "",
+		"address" : "10.71.20.16",
+		"initmode" : "enable"
+	},
+	"sysinfo" : { 
+		"modelName" : "V2708M", 
+		"memorySize" : "256M",
+		"port" : { 
+			"Ethernet" : 8, 
+			"GEPON" : 1, 
+			"Trunk" : 5
+		}
+	}
+}

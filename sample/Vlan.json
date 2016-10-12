@@ -1,0 +1,8 @@
+{
+	"name" : "Vlan",
+	"parent" : "",
+	"description" : "Test Vlan create and delete",
+	"duts" : [
+		"V2708M"
+	]
+}
