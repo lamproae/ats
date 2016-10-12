@@ -7,6 +7,7 @@ import (
 	"os"
 	"io/ioutil"
 	"encoding/json"
+	"path/filepath"
 )
 
 type Operation struct {
@@ -25,6 +26,8 @@ type Step struct {
 
 type Case struct {
 	duts map[string]*dut.DUT
+	caseJson string
+	caseDir string
 	Name string		`name`
 	Parent string		`parent`
 	Description string	`description`
@@ -35,19 +38,23 @@ type Case struct {
 }
 
 func New (name string) *Case {
-	_, err := os.Stat("cases/L2/Vlan/"+name+".json") 
+	_, file := filepath.Split(name)
+	caseJson := name+"/"+file+".json"
+	_, err := os.Stat(caseJson) 
 	if err != nil {
 		log.Println("No json file for case: ", name)
 		return nil
 	}
 
-	data, err := ioutil.ReadFile("cases/L2/Vlan/"+name+".json")
+	data, err := ioutil.ReadFile(caseJson)
 	if err != nil {
 		log.Println("Read json file error: ", name)
 		return nil
 	}
 
 	var c Case
+	c.caseJson = caseJson
+	c.caseDir = name
 	err = json.Unmarshal(data, &c)
 	if err != nil {
 		log.Println("Parse json file error: ", name)
@@ -69,7 +76,7 @@ func (c *Case) BuildCase() {
 		c.duts[d] = dut.New(d)
 	}
 
-	data, err := ioutil.ReadFile("cases/L2/Vlan/"+"sub.json")
+	data, err := ioutil.ReadFile(c.caseDir+"/sub.json")
 	if err != nil {
 		log.Println("Read file error ", err.Error())
 	}
