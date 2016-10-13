@@ -1,0 +1,8 @@
+{
+	"name" : "Port",
+	"parent" : "",
+	"description" : "Test port enable/disable",
+	"duts" : [
+		"V2708M"
+	]
+}

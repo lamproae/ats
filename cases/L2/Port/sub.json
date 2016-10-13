@@ -1,0 +1,36 @@
+[	
+	{
+		"operations": [
+			{
+				"name" : "V2708M",
+				"commands" : [{"command": "port enable 4", "mode": "bridge", "end": "#"}],
+				"expected" : [
+					{"command" : {"command" : "show port", "mode" : "bridge", "end" : "#"},
+						"expected" : "4:[[:space:]]+Ethernet[[:space:]]+[0-9 ]+Up/"
+					},
+					{"command" : {"command" : "show port status", "mode" : "bridge", "end" : "#"},
+						"expected" : "4[[:space:]]+GE-TX[[:space:]]+Up"
+					}
+				]
+			}
+		]
+	},
+	{
+		"operations": [
+			{
+				"name" : "V2708M",
+				"commands" : [{"command": "port disable 4", "mode": "bridge", "end": "#"}],
+				"expected" : [
+					{"command" : {"command" : "show port", "mode" : "bridge", "end" : "#"},
+						"expected" : "4:[[:space:]]+Ethernet[[:space:]]+[0-9 ]+Down/"
+					},
+					{"command" : {"command" : "show port status", "mode" : "bridge", "end" : "#"},
+						"expected" : "4[[:space:]]+GE-TX[[:space:]]+Down"
+					}
+				]
+			}
+		]
+	}
+]
+
+
