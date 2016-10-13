@@ -9,8 +9,9 @@ import (
 )
 
 var CaseDir string = "cases"
-var userCase = flag.String("c", "", "Which Case to run ? (Default All)")
-var Help = flag.String("h", "help", "show help")
+var userCase = flag.String("r", "", "Which Case to run ? (Default All)")
+var check = flag.String("c", "", "Check the operating status of a Device")
+var help = flag.String("h", "help", "show help")
 
 var CaseDB = make([]string, 0, 1000)
 

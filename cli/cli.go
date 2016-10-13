@@ -19,6 +19,7 @@ type Cli struct {
 	cMode string	/* Current Mode */
 	state bool	/* Current state */
 	err   error
+	command Command /*Last run command */
 	result []byte/* Result of Last command */
 	product *product.Product
 }
@@ -83,9 +84,9 @@ func (c *Cli) Expect(e string) error {
 	data, err := c.c.ReadUntil(e)
 	checkErr(err)
 	//Here we should remove the header and footer of result.
-	c.result = data[:len(data)-len(e)]
-	log.Println("Command result:")
-	log.Println(string(c.result))
+	c.result = data[len(c.command.Command)+2:len(data)-len(c.command.Mode+"#")]
+	//log.Println("Command result:")
+	//log.Println(string(c.result))
 	return nil
 }
 
@@ -96,7 +97,7 @@ func (c *Cli) Sendln(l string) error {
 	buf[len(l)] = '\n'
 	_, err := c.c.Write(buf)
 	checkErr(err)
-	log.Println("Send command: ", l)
+	//log.Println("Send command: ", l)
 	return nil
 }
 
@@ -145,6 +146,7 @@ func (c *Cli) RunCommand(command Command) {
 	//data, _ := c.c.ReadBytes('#')
 	//os.Stdout.Write(data)
 	c.Expect(command.End)
+	c.command = command
 }
 
 func (c *Cli) Assert (e Expected) (string, error) {
@@ -210,6 +212,7 @@ func New(name string) *Cli {
 
 	c.Login()
 	c.cMode = p.Initmode()
+	c.RunCommand(Command{"enable", "terminal length 0", "#"})
 
 	return &c
 }

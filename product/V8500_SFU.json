@@ -1,0 +1,19 @@
+{
+	"product": "V8500_SFU",
+	"config" :{ 
+		"hostname" : "SWITCH", 
+		"username" : "admin", 
+		"password" : "",
+		"address" : "10.71.20.187",
+		"initmode" : "enable"
+	},
+	"sysinfo" : { 
+		"modelName" : "V8500_SFU", 
+		"memorySize" : "2048MB",
+		"port" : { 
+			"Ethernet" : 8, 
+			"GEPON" : 1, 
+			"Trunk" : 96 
+		}
+	}
+}
