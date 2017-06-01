@@ -1,64 +1,43 @@
 package main
 
 import (
-	"dut"
 	"cli"
-	"log"
-	"regexp"
-	"strings"
-	"net"
-	"strconv"
+	"dut"
 	"fmt"
+	"log"
+	"net"
+	"regexp"
+	"strconv"
+	"strings"
 )
 
 type Interface struct {
-	Name string
-	IsL3 bool
-	IsVlan bool
-	IsLoopback bool
-	IsAdminUP bool
-	IsRunning bool
+	Name               string
+	IsL3               bool
+	IsVlan             bool
+	IsLoopback         bool
+	IsAdminUP          bool
+	IsRunning          bool
 	IsBroadcastCapable bool
 	IsMulticastCapable bool
-	IfIndex int64
-	IfMetric int64
-	IfMTU int64
-	Bandwidth int64
-	Description string
-	IPAddress map[string]*net.IP
-	IPConnected map[string]*net.IPNet
-	IPv6Address map[string]*net.IP
-	IPv6Connected map[string]*net.IPNet
-	MACAddress map[string]*net.HardwareAddr
-	Configuration []string
-	ShowInterface string
-	InputPackets int64
-	InputBytes int64
-	InputDropped int64
-	OutputPackets int64
-	OutputBytes int64
-	OutputDropped int64
-}
-
-// Interface mode command list
-/*
-no shutdown
-ip address A.B.C.D/M (primary|secondary|)
-ip address dhcp
-ip redirects
-ip unreachables
-ip_forwarding (enable|disable)
-ipv6 address PREFIX_NAME X:X::X:X/M
-ipv6 address X:X::X:X/M
-ipv6 address X:X::X:X/M anycast
-ipv6 address autoconfig (default|)
-ipv6 address dhcp (rapid-commit |)
-ipv6 address link-local X:X::X:X
-ipv6 enable
-*/
-
-func (i *Interface) Analyze() error {
-
+	IfIndex            int64
+	IfMetric           int64
+	IfMTU              int64
+	Bandwidth          int64
+	Description        string
+	IPAddress          map[string]*net.IP
+	IPConnected        map[string]*net.IPNet
+	IPv6Address        map[string]*net.IP
+	IPv6Connected      map[string]*net.IPNet
+	MACAddress         map[string]*net.HardwareAddr
+	Configuration      []string
+	ShowInterface      string
+	InputPackets       int64
+	InputBytes         int64
+	InputDropped       int64
+	OutputPackets      int64
+	OutputBytes        int64
+	OutputDropped      int64
 }
 
 func (i *Interface) String() string {
@@ -81,7 +60,7 @@ func (i *Interface) String() string {
 	result += fmt.Sprintf("\tIPv6Address: %v\n", i.IPv6Address)
 	result += fmt.Sprintf("\tIPv6Connected: %v\n", i.IPv6Connected)
 	result += fmt.Sprintf("\tMACAddress: %v\n", i.MACAddress)
-	//result += fmt.Sprintf("\tConfiguration: %v\n", i.Configuration)
+	result += fmt.Sprintf("\tConfiguration: %v\n", i.Configuration)
 	//result += fmt.Sprintf("\tShowInterface: %v\n", i.ShowInterface)
 	result += fmt.Sprintf("\tInputPackets: %v\n", i.InputPackets)
 	result += fmt.Sprintf("\tInputBytes: %v\n", i.InputBytes)
@@ -93,12 +72,12 @@ func (i *Interface) String() string {
 	return result
 }
 
-var InterfaceBandwidthMap = map[string]int64 {
-	"10m" : 10000,
-	"100M" : 100000,
-	"1g" : 1000000,
-	"10g" : 10000000,
-	"100g" : 100000000,
+var InterfaceBandwidthMap = map[string]int64{
+	"10m":  10000,
+	"100M": 100000,
+	"1g":   1000000,
+	"10g":  10000000,
+	"100g": 100000000,
 }
 
 var InterfaceDB map[string]*Interface
@@ -107,6 +86,7 @@ var MatchInterfaceLoopback = regexp.MustCompile(`Hardware is Loopback`)
 var MatchInterfaceMACAddress = regexp.MustCompile(`Current HW addr:[[:space:]]+(?P<mac>[[:word:]]{2}\:[[:word:]]{2}\:[[:word:]]{2}\:[[:word:]]{2}\:[[:word:]]{2}\:[[:word:]]{2})`)
 var MatchInterfaceIPAddress = regexp.MustCompile(`inet[[:space:]]+(?P<ip>[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/[0-9]+)[[:space:]]+`)
 var MatchInterfaceIPv6Address = regexp.MustCompile(`inet6[[:space:]]+(?P<ipv6>[[:word:]\:]+/[0-9]+)[[:space:]]+`)
+
 //var MatchInterfaceIndexMetricMTU = regexp.MustCompile(`index (?P<index>[0-9]+) metric (?P<metric>[0-9]+) (?P<mtu>[0-9]+)`)
 var MatchInterfaceIndexMetricMTU = regexp.MustCompile(`index[[:space:]]+(?P<index>[0-9]+)[[:space:]]+metric[[:space:]]+(?P<metric>[0-9]+)[[:space:]]+mtu[[:space:]]+(?P<mtu>[0-9]+)[[:space:]]+`)
 var MatchInterfaceBandwidth = regexp.MustCompile(`Bandwidth[[:space:]]+(?P<bandwidth>[[:word:]]+)`)
@@ -117,7 +97,7 @@ var MatchInterfaceStatus = regexp.MustCompile(`\<(?P<state>[A-Z,]+)\>`)
 func main() {
 	c := dut.New("V8500_SFU").Cli
 	c.RunCommand(cli.Command{"enable", "show running-config", "#"})
-	//log.Println(c.CommandResult())
+	log.Println(c.CommandResult())
 	interfaces := MatchAllInterface.FindAllStringSubmatch(c.CommandResult(), -1)
 	InterfaceDB = make(map[string]*Interface, len(interfaces))
 	for _, i := range interfaces {
@@ -134,17 +114,17 @@ func main() {
 			}
 		}
 
-		c.RunCommand(cli.Command{"enable", "show "+ifname, "#"})
-		var newInterface = Interface {
-			Name : ifname,
-			IsLoopback : false,
-			IsL3	: isL3,
-			IsVlan  : isVlan,
-			IsRunning : false,
-			IsMulticastCapable : false,
-			IsBroadcastCapable : false,
-			Configuration : config[1:],
-			ShowInterface : c.CommandResult(),
+		c.RunCommand(cli.Command{"enable", "show " + ifname, "#"})
+		var newInterface = Interface{
+			Name:               ifname,
+			IsLoopback:         false,
+			IsL3:               isL3,
+			IsVlan:             isVlan,
+			IsRunning:          false,
+			IsMulticastCapable: false,
+			IsBroadcastCapable: false,
+			Configuration:      config[1:],
+			ShowInterface:      c.CommandResult(),
 		}
 
 		// Get Interface IPv4 address configuration
@@ -217,7 +197,7 @@ func main() {
 			log.Fatal("No input statistics for interface: ", ifname)
 		}
 
-		inputPackets, err := strconv.ParseInt(strings.Replace(inputs[1],",", "", -1), 10, 64)
+		inputPackets, err := strconv.ParseInt(strings.Replace(inputs[1], ",", "", -1), 10, 64)
 		if err != nil {
 			log.Fatal("Parse input packets error")
 		}
@@ -284,9 +264,9 @@ func main() {
 		}
 
 		if strings.Contains(status[1], "MULTICAST") {
-			newInterface.IsMulticastCapable= true
+			newInterface.IsMulticastCapable = true
 		} else {
-			newInterface.IsMulticastCapable= false
+			newInterface.IsMulticastCapable = false
 		}
 
 		// Check if interface is Loopback interface
@@ -302,14 +282,13 @@ func main() {
 			if err != nil {
 				log.Fatal("Invalid MAC address: ", macs[1])
 			}
-			newInterface.MACAddress = map[string]*net.HardwareAddr {
-				macs[1] : &mac,
+			newInterface.MACAddress = map[string]*net.HardwareAddr{
+				macs[1]: &mac,
 			}
 		}
 
-		InterfaceDB[ifname] =  &newInterface
+		InterfaceDB[ifname] = &newInterface
 	}
-
 
 	for _, intf := range InterfaceDB {
 		fmt.Println(intf)

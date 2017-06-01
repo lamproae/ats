@@ -1,10 +1,10 @@
 {
 	"product": "V8500_SFU",
 	"config" :{ 
-		"hostname" : "SWITCH", 
+		"hostname" : "SWITCH[A]", 
 		"username" : "admin", 
 		"password" : "",
-		"address" : "10.71.20.187",
+		"address" : "10.71.20.198",
 		"initmode" : "enable"
 	},
 	"sysinfo" : { 

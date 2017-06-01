@@ -14,6 +14,8 @@ import (
 
 const timeout = 10 * time.Second
 
+var ticker = time.NewTicker(time.Second * 10)
+
 type Cli struct {
 	c *telnet.Client
 	cMode string	/* Current Mode */
@@ -84,7 +86,8 @@ func (c *Cli) Expect(e string) error {
 	data, err := c.c.ReadUntil(e)
 	checkErr(err)
 	//Here we should remove the header and footer of result.
-	c.result = data[len(c.command.Command)+2:len(data)-len(c.command.Mode+"#")]
+	//c.result = data[len(c.command.Command)+2:len(data)-len(c.command.Mode+"#")]
+	c.result = data
 	//log.Println("Command result:")
 	//log.Println(string(c.result))
 	return nil
@@ -114,6 +117,7 @@ func (c *Cli) SwitchMode(mode string) error {
 		return errors.New("Unkonw mode switch")
 	}
 
+    log.Println(commands)
 	for _, command := range commands {
 		c.Sendln(command.Command)
 		c.Expect(command.End)

@@ -1,0 +1,19 @@
+{
+	"product": "V5624G",
+	"config" :{ 
+		"hostname" : "V5624G", 
+		"username" : "admin", 
+		"password" : "Dasan123456",
+		"address" : "10.71.20.74",
+		"initmode" : "enable"
+	},
+	"sysinfo" : { 
+		"modelName" : "V5624G", 
+		"memorySize" : "512",
+		"port" : { 
+			"Ethernet" : 24, 
+			"GEPON" : 0, 
+			"Trunk" :16
+		}
+	}
+}
